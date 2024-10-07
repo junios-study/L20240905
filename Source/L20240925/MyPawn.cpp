@@ -11,6 +11,8 @@
 #include "GameFramework/FloatingPawnMovement.h"
 #include "Kismet/GameplayStatics.h"
 
+#include "MyActor.h"
+
 // Sets default values
 AMyPawn::AMyPawn()
 {
@@ -58,7 +60,7 @@ AMyPawn::AMyPawn()
 	Camera->SetupAttachment(SpringArm);
 
 	Movement = CreateDefaultSubobject<UFloatingPawnMovement>("Movement");
-	Movement->MaxSpeed = 1000.0f;
+	Movement->MaxSpeed = 0;
 
 }
 
@@ -127,7 +129,7 @@ void AMyPawn::Pitch(float Value)
 
 void AMyPawn::Fire()
 {
-
+	AActor* NewActor = GetWorld()->SpawnActor<AActor>(RocketTemplate, Arrow->K2_GetComponentLocation(), Arrow->GetComponentRotation());
 }
 
 void AMyPawn::Boost()

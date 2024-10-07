@@ -49,6 +49,9 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "State")
 	float BoostScale = 0.5f;
 
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "State")
+	TSubclassOf<class AMyActor> RocketTemplate;
+
 
 public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Components")
