@@ -51,6 +51,8 @@ AMyPawn::AMyPawn()
 
 	SpringArm = CreateDefaultSubobject<USpringArmComponent>("SpringArm");
 	SpringArm->SetupAttachment(Box);
+	
+	SpringArm->bEnableCameraLag = true;
 
 	Camera = CreateDefaultSubobject<UCameraComponent>("Camera");
 	Camera->SetupAttachment(SpringArm);
@@ -64,7 +66,19 @@ AMyPawn::AMyPawn()
 void AMyPawn::BeginPlay()
 {
 	Super::BeginPlay();
-	
+
+	//for (TFieldIterator<UFunction> FuntionIT(GetClass()); FuntionIT; ++FuntionIT)
+	//{
+	//	UE_LOG(LogTemp, Warning, TEXT("Name : %s"), *FuntionIT->GetName());
+
+	//}
+
+	//for (TFieldIterator<FProperty> PropIt(GetClass()); PropIt; ++PropIt)
+	//{
+	//	UE_LOG(LogTemp, Warning, TEXT("Name : %s"), *PropIt->GetName());
+	//	
+	//}
+
 }
 
 // Called every frame
@@ -72,7 +86,7 @@ void AMyPawn::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
-	AddMovementInput(GetActorForwardVector());
+	AddMovementInput(GetActorForwardVector(), BoostScale);
 	//Left->AddLocalRotation(FRotator(0, 0, 3600 * DeltaTime));
 	//Right->AddLocalRotation(FRotator(0, 0, 3600 * DeltaTime));
 	RotatePropeller(Left);
@@ -88,6 +102,41 @@ void AMyPawn::RotatePropeller(UStaticMeshComponent* Where)
 void AMyPawn::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
+	PlayerInputComponent->BindAxis(TEXT("Roll"), this, &AMyPawn::Roll);
+	PlayerInputComponent->BindAxis(TEXT("Pitch"), this, &AMyPawn::Pitch);
 
+	PlayerInputComponent->BindAction(TEXT("Fire"), IE_Pressed,  this, &AMyPawn::Fire);
+
+	PlayerInputComponent->BindAction(TEXT("Boost"), IE_Pressed,  this, &AMyPawn::Boost);
+	PlayerInputComponent->BindAction(TEXT("Boost"), IE_Released,  this, &AMyPawn::StopBoost);
+}
+
+void AMyPawn::Roll(float Value)
+{
+	float Normalize = FMath::Clamp(Value, -1.f, 1.f);
+
+	AddActorLocalRotation(FRotator(0, 0, 60 * Normalize * UGameplayStatics::GetWorldDeltaSeconds(GetWorld())));
+}
+
+void AMyPawn::Pitch(float Value)
+{
+	float Normalize = FMath::Clamp(Value, -1.f, 1.f);
+
+	AddActorLocalRotation(FRotator(60 * Normalize * UGameplayStatics::GetWorldDeltaSeconds(GetWorld()), 0, 0));
+}
+
+void AMyPawn::Fire()
+{
+
+}
+
+void AMyPawn::Boost()
+{
+	BoostScale = 1.0f;
+}
+
+void AMyPawn::StopBoost()
+{
+	BoostScale = 0.5f;
 }
 

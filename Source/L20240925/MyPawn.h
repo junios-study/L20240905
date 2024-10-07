@@ -36,6 +36,19 @@ public:
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
+	void Roll(float Value);
+
+	void Pitch(float Value);
+
+	void Fire();
+
+	void Boost();
+
+	void StopBoost();
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "State")
+	float BoostScale = 0.5f;
+
 
 public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Components")
