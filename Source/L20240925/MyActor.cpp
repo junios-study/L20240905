@@ -1,4 +1,4 @@
-// Fill out your copyright notice in the Description page of Project Settings.
+﻿// Fill out your copyright notice in the Description page of Project Settings.
 
 
 #include "MyActor.h"
@@ -37,13 +37,37 @@ void AMyActor::BeginPlay()
 	Super::BeginPlay();
 
 	SetLifeSpan(3.0f);
-	
+
+	OnActorBeginOverlap.AddDynamic(this, &AMyActor::ProcessOverlap);
+	//OnActorBeginOverlap.AddDynamic(this, &AMyActor::ProcessOverlap);
+	//OnActorBeginOverlap.RemoveAll(this);
+
 }
 
 // Called every frame
 void AMyActor::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
+
+}
+
+void AMyActor::ProcessOverlap(AActor* OverlappedActor, AActor* OtherActor)
+{
+	UE_LOG(LogTemp, Warning, TEXT("Overlap Actor : %s"), *OtherActor->GetName());
+	//다른 처리 그건 아트, 기획자 제공
+	//MakeBPCallCPP(10);
+	MakeBPToNativeCallCPP(20);
+}
+
+void AMyActor::MakeCPPCallBP(int32 Number)
+{
+
+	UE_LOG(LogTemp, Warning, TEXT("이건 BP에서 호출한 CPP 함수 %d"), Number);
+}
+
+void AMyActor::MakeBPToNativeCallCPP_Implementation(int32 Number)
+{
+	UE_LOG(LogTemp, Warning, TEXT("이건 BP에서 호출한 CPP 함수 Native %d"), Number);
 
 }
 

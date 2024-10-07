@@ -1,4 +1,4 @@
-// Fill out your copyright notice in the Description page of Project Settings.
+﻿// Fill out your copyright notice in the Description page of Project Settings.
 
 #pragma once
 
@@ -35,4 +35,17 @@ public:
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components")
 	TObjectPtr<UProjectileMovementComponent> Movement;
+
+	UFUNCTION()
+	void ProcessOverlap(AActor* OverlappedActor, AActor* OtherActor);
+
+	UFUNCTION(BlueprintCallable, meta=(displayName="블루프린트에서 사용하는 함수"))
+	void MakeCPPCallBP(int32 Number);
+
+	UFUNCTION(BlueprintImplementableEvent)
+	void MakeBPCallCPP(int32 Number);
+
+	UFUNCTION(BlueprintNativeEvent)
+	void MakeBPToNativeCallCPP(int32 Number);
+	void MakeBPToNativeCallCPP_Implementation(int32 Number);
 };

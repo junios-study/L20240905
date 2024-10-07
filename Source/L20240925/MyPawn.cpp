@@ -62,12 +62,24 @@ AMyPawn::AMyPawn()
 	Movement = CreateDefaultSubobject<UFloatingPawnMovement>("Movement");
 	Movement->MaxSpeed = 0;
 
+	//#include <BP_Rocket>
+	static ConstructorHelpers::FClassFinder<AActor> BP_RocketTemplate(TEXT("/Script/Engine.Blueprint'/Game/Blueprints/BP_Rocket.BP_Rocket_C'"));
+	if (BP_RocketTemplate.Succeeded())
+	{
+		RocketTemplate = BP_RocketTemplate.Class;
+	}
+
+
 }
 
 // Called when the game starts or when spawned
 void AMyPawn::BeginPlay()
 {
 	Super::BeginPlay();
+
+	OnActorBeginOverlap.AddDynamic(this, &AMyPawn::ProcessOverlap);
+
+
 
 	//for (TFieldIterator<UFunction> FuntionIT(GetClass()); FuntionIT; ++FuntionIT)
 	//{
@@ -140,5 +152,9 @@ void AMyPawn::Boost()
 void AMyPawn::StopBoost()
 {
 	BoostScale = 0.5f;
+}
+
+void AMyPawn::ProcessOverlap(AActor* OverlappedActor, AActor* OtherActor)
+{
 }
 

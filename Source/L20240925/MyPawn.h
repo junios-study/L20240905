@@ -50,7 +50,10 @@ public:
 	float BoostScale = 0.5f;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "State")
-	TSubclassOf<class AMyActor> RocketTemplate;
+	TSubclassOf<class AActor> RocketTemplate;
+
+	UFUNCTION()
+	void ProcessOverlap(AActor* OverlappedActor, AActor* OtherActor);
 
 
 public:
