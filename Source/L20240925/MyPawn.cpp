@@ -1,4 +1,4 @@
-// Fill out your copyright notice in the Description page of Project Settings.
+﻿// Fill out your copyright notice in the Description page of Project Settings.
 
 
 #include "MyPawn.h"
@@ -9,6 +9,7 @@
 #include "Camera/CameraComponent.h"
 #include "GameFramework/SpringArmComponent.h"
 #include "GameFramework/FloatingPawnMovement.h"
+#include "Kismet/GameplayStatics.h"
 
 // Sets default values
 AMyPawn::AMyPawn()
@@ -16,7 +17,7 @@ AMyPawn::AMyPawn()
  	// Set this pawn to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
-	Box = CreateDefaultSubobject<UBoxComponent>("Box");
+	Box = CreateDefaultSubobject<UBoxComponent>(TEXT("박스"));
 	RootComponent = Box;
 
 	Body = CreateDefaultSubobject<UStaticMeshComponent>("Body");
@@ -55,6 +56,7 @@ AMyPawn::AMyPawn()
 	Camera->SetupAttachment(SpringArm);
 
 	Movement = CreateDefaultSubobject<UFloatingPawnMovement>("Movement");
+	Movement->MaxSpeed = 1000.0f;
 
 }
 
@@ -70,6 +72,16 @@ void AMyPawn::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
+	AddMovementInput(GetActorForwardVector());
+	//Left->AddLocalRotation(FRotator(0, 0, 3600 * DeltaTime));
+	//Right->AddLocalRotation(FRotator(0, 0, 3600 * DeltaTime));
+	RotatePropeller(Left);
+	RotatePropeller(Right);
+}
+
+void AMyPawn::RotatePropeller(UStaticMeshComponent* Where)
+{
+	Where->AddLocalRotation(FRotator(0, 0, 3600 * UGameplayStatics::GetWorldDeltaSeconds(GetWorld())));
 }
 
 // Called to bind functionality to input
