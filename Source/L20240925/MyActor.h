@@ -48,4 +48,7 @@ public:
 	UFUNCTION(BlueprintNativeEvent)
 	void MakeBPToNativeCallCPP(int32 Number);
 	void MakeBPToNativeCallCPP_Implementation(int32 Number);
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Data")
+	class UParticleSystem* ParticleTemplate;
 };

@@ -5,6 +5,7 @@
 #include "Components/BoxComponent.h"
 #include "Components/StaticMeshComponent.h"
 #include "GameFramework/ProjectileMovementComponent.h"
+#include "Kismet/GameplayStatics.h"
 
 // Sets default values
 AMyActor::AMyActor()
@@ -68,6 +69,14 @@ void AMyActor::MakeCPPCallBP(int32 Number)
 void AMyActor::MakeBPToNativeCallCPP_Implementation(int32 Number)
 {
 	UE_LOG(LogTemp, Warning, TEXT("이건 BP에서 호출한 CPP 함수 Native %d"), Number);
+
+	UGameplayStatics::SpawnEmitterAtLocation(GetWorld(),
+		ParticleTemplate,
+		GetActorLocation(),
+		FRotator::ZeroRotator
+	);
+
+
 
 }
 
