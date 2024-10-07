@@ -4,6 +4,8 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/GameModeBase.h"
+
+
 #include "MyGameModeBase.generated.h"
 
 
@@ -16,6 +18,6 @@ class L20240925_API AMyGameModeBase : public AGameModeBase
 	GENERATED_BODY()
 
 public:
-	AMyGameModeBase();
-	
+	AMyGameModeBase(); //CDO에 초기화 한다.
+
 };
